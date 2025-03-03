@@ -35,6 +35,26 @@ Logs are stored in:
 - **Main log file**: `/home/ubuntu/LOGG.log`
 - **SQL queries log**: `/home/ubuntu/SQLL`
 
+Let me trace the data flow in the program by analyzing the key components and their connections.
+Let me analyze the main data flow by checking some key functions:
+Let me get more context about the worker function:
+Let me check the calculate and assyncio functions:
+Based on the analysis, here's the data flow in the program:
+The program starts with RUN_QUERY which:
+Sets up a multiprocessing environment with 30 worker processes
+Connects to a ClickHouse database and truncates the vz.search_result table
+Creates tasks for asynchronous processing
+The data processing pipeline:
+worker processes get tasks from a queue
+Each worker executes calculate with the task parameters
+The tasks are primarily calls to assyncio function
+assyncio runs asynchronous operations through main
+Key data structures:
+task_queue: Holds tasks to be processed by workers
+done_queue_sq: Tracks completed tasks
+Database connection to ClickHouse for storing search results
+The program appears to be designed for parallel processing of search queries, with results being stored in a ClickHouse database table named vz.search_result.
+The system uses both multiprocessing (for parallel execution) and asyncio (for asynchronous I/O operations), making it efficient for handling multiple search operations simultaneously.
 ---
 
 ## Русская версия
@@ -71,4 +91,25 @@ Logs are stored in:
 Логи хранятся в следующих файлах:
 - **Основной лог-файл**: `/home/ubuntu/LOGG.log`
 - **Лог SQL-запросов**: `/home/ubuntu/SQLL`
+
+Позвольте мне проследить поток данных в программе, проанализировав ключевые компоненты и их связи.
+Давайте проанализируем основной поток данных, проверив некоторые ключевые функции:
+Давайте узнаем больше о функции worker:
+Проверим функции calculate и assyncio:
+На основании проведенного анализа вот поток данных в программе:
+Программа начинается с RUN_QUERY, которая:
+Устанавливает многопроцессорную среду с 30 рабочими процессами
+Подключается к базе данных ClickHouse и усекает таблицу vz.search_result
+Создает задачи для асинхронной обработки
+Конвейер обработки данных:
+рабочие процессы получают задания из очереди
+Каждый рабочий процесс выполняет вычисления с параметрами задачи
+Задачи - это прежде всего вызовы функций assyncio
+assyncio выполняет асинхронные операции через main
+Ключевые структуры данных:
+task_queue: Хранит задачи, которые должны быть обработаны рабочими
+done_queue_sq: отслеживает выполненные задания
+Соединение базы данных с ClickHouse для хранения результатов поиска
+Программа, судя по всему, предназначена для параллельной обработки поисковых запросов, а результаты хранятся в таблице базы данных ClickHouse с именем vz.search_result.
+Система использует как мультипроцессинг (для параллельного выполнения), так и asyncio (для асинхронных операций ввода-вывода), что делает ее эффективной для одновременной обработки нескольких поисковых операций.
 
