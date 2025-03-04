@@ -55,6 +55,18 @@ done_queue_sq: Tracks completed tasks
 Database connection to ClickHouse for storing search results
 The program appears to be designed for parallel processing of search queries, with results being stored in a ClickHouse database table named vz.search_result.
 The system uses both multiprocessing (for parallel execution) and asyncio (for asynchronous I/O operations), making it efficient for handling multiple search operations simultaneously.
+
+ I found that the query parameters are defined in the function map_query_params. The parameters passed to each query are:
+ab_testing: False
+appType: 1
+curr: "rub" (currency)
+dest: -1257786 (destination identifier)
+query: The actual search key/term
+resultset: "filters"
+spp: 30 (search results per page)
+suppressSpellcheck: False
+These parameters are used when making requests to retrieve product data through the get_products function, which uses these parameters to construct the API request.
+
 ---
 
 ## Русская версия
@@ -112,4 +124,17 @@ done_queue_sq: отслеживает выполненные задания
 Соединение базы данных с ClickHouse для хранения результатов поиска
 Программа, судя по всему, предназначена для параллельной обработки поисковых запросов, а результаты хранятся в таблице базы данных ClickHouse с именем vz.search_result.
 Система использует как мультипроцессинг (для параллельного выполнения), так и asyncio (для асинхронных операций ввода-вывода), что делает ее эффективной для одновременной обработки нескольких поисковых операций.
+
+Я выяснил, что параметры запроса определены в функции map_query_params. Передаваемые параметры:
+	•	ab_testing: False (отключение A/B-тестирования)
+	•	appType: 1 (тип приложения)
+	•	curr: "rub" (валюта — рубли)
+	•	dest: -1257786 (идентификатор направления)
+	•	query: (ключевое слово или поисковый запрос)
+	•	resultset: "filters" (набор результатов)
+	•	spp: 30 (количество результатов на странице)
+	•	suppressSpellcheck: False (отключение проверки орфографии)
+
+Эти параметры используются при запросах к API через функцию get_products, которая формирует запрос с их помощью для получения данных о товарах.
+_____
 
