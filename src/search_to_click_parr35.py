@@ -22,7 +22,7 @@ import shutil
 #### ПАРАЛЛЕЛЬНОЕ ВЫПОЛНЕНИЕ ПОЛУЧЕНИЯ WEB-ДАННЫХ И ЗАНЕСЕНИЕ ДАННЫХ В БАЗУ ДАННЫХ
 #### очередь поисковых запросов --> WEB-данные --> Парсинг --> Запись в Clickhouse
 
-SEARCH_URL = "https://search.wb.ru/exactmatch/ru/common/v4/search"
+SEARCH_URL = "https://search.wb.ru/exactmatch/ru/common/v9/search"
 
 regions = ",".join(map(str, [80, 64, 38, 4, 115, 83, 33, 68, 70, 69, 30, 86, 75, 40, 1, 66, 48, 110, 31, 22, 71, 114]))
 
@@ -75,8 +75,7 @@ def to_log(str, eprint=0): #Логирование в файл
 async def get_products(key: str, client_session, used: bool = False, ):
     async with client_session.get(SEARCH_URL,
                                   params={"appType": 1, "query": key, "resultset": "catalog", "sort": "popular",
-                                          "curr": "rub", "dest": -1257786, "regions": regions, "spp": 20,
-                                          "TestGroup": "no_test", "TestID": "no_test"}) as raw_data:
+                                          "curr": "rub", "dest": -1257786, "spp": 20}) as raw_data:
         try:
             return key, (await raw_data.json(content_type="text/plain"))["data"]["products"]
         except Exception as error:
